@@ -17,7 +17,12 @@ const pool = new Pool({
 
 // Middleware
 app.use(cors({
-  origin: ['http://54.166.206.245:3021', 'http://127.0.0.1:5501'],
+  origin: [
+    'http://54.166.206.245:8035', // Frontend
+    'http://54.166.206.245:8036', // HR page
+    'http://54.166.206.245:3021', // Backend self
+    'http://127.0.0.1:5501'       // Local dev (optional)
+  ],
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type']
 }));
