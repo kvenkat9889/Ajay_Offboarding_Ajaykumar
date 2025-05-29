@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -416,16 +417,14 @@
       <div class="section">
         <h2><i class="fas fa-user"></i> Employee Information</h2>
         <label for="employee-name">Full Name</label>
-        <input type="text" id="employee-name" name="employee-name" required minlength="3" maxlength="40"
+        <input type="text" id="employee-name" name="employee-name" required minlength="3" maxlength="100"
                pattern="^[A-Za-z]+(?:\.[A-Za-z]+)*(?: [A-Za-z]+)*(?:\.[A-Za-z]+){0,3}$"
                placeholder="Enter Full Name" title="Name cannot start with a space, no consecutive spaces allowed, maximum 8 spaces and 3 periods allowed.">
         <span id="name-error" class="error-message"></span>
 
         <label class="required" for="email">Email Address:</label>
         <input type="email" id="email" name="email" required placeholder="Enter your email address" minlength="5"
-               maxlength="40" title="Please enter a valid email address"<input type="email" id="email" class="form-control" placeholder="Employee Email"
-       oninput="this.value = this.value.trim()">
-
+               maxlength="40" title="Please enter a valid email address">
         <span id="email-error" class="error-message"></span>
 
         <label for="employee-id">Employee ID</label>
@@ -541,59 +540,35 @@
         errorMessage.style.display = message ? 'block' : 'none';
       }
 
-     function validateName() {
-    const employeeName = document.getElementById('employee-name').value;
-    const trimmedName = employeeName.trim(); // Remove spaces before validation
-    const namePattern = /^[A-Za-z]+(?:\.[A-Za-z]+)*(?: [A-Za-z]+)*(?:\.[A-Za-z]+){0,3}$/;
-    const consecutiveSpacesPattern = /\s{2,}/; // Detects two or more consecutive spaces
+      function validateName() {
+        const employeeName = document.getElementById('employee-name').value.trim();
+        const namePattern = /^[A-Za-z]+(?:\.[A-Za-z]+)*(?: [A-Za-z]+)*(?:\.[A-Za-z]+){0,3}$/;
+        if (employeeName.length < 3 || employeeName.length > 100 || !namePattern.test(employeeName)) {
+          showErrorMessage('name-error', "Invalid Name: Must be 3-100 characters, no leading/trailing spaces, max 3 periods.");
+          return false;
+        } else {
+          showErrorMessage('name-error', '');
+          return true;
+        }
+      }
 
-    if (employeeName !== trimmedName) { 
-        showErrorMessage('name-error', "Name cannot have leading or trailing spaces.");
-        return false;
-    }
-
-    if (consecutiveSpacesPattern.test(trimmedName)) {
-        showErrorMessage('name-error', "Name cannot contain consecutive spaces.");
-        return false;
-    }
-
-    if (trimmedName.length < 3 || trimmedName.length > 40 || !namePattern.test(trimmedName)) {
-        showErrorMessage('name-error', "Invalid Name: Must be 3-40 characters, no consecutive spaces, max 3 periods.");
-        return false;
-    }
-
-    showErrorMessage('name-error', '');
-    return true;
-}
-
-
-     function validateEmail() {
-    const email = document.getElementById('email').value;
-    const emailPattern = /^[a-zA-Z0-9._%+-]{3,}@(gmail\.com|outlook\.com|gmail\.in|outlook\.in|gmail\.org|outlook\.org)$/;
-
-    // Trim spaces before validation
-    const trimmedEmail = email.trim();
-
-    if (email !== trimmedEmail) {  // Detects if spaces were removed
-        showErrorMessage('email-error', 'Email cannot contain leading or trailing spaces.');
-        return false;
-    }
-
-    if (!emailPattern.test(trimmedEmail)) {
-        showErrorMessage('email-error', 'Please enter a valid Gmail or Outlook email.');
-        return false;
-    }
-
-    showErrorMessage('email-error', '');
-    return true;
-}
-
+      function validateEmail() {
+        const email = document.getElementById('email').value.trim();
+        const emailPattern = /^[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]{2,3}$/;
+        if (!emailPattern.test(email)) {
+          showErrorMessage('email-error', 'Please enter a valid email address.');
+          return false;
+        } else {
+          showErrorMessage('email-error', '');
+          return true;
+        }
+      }
 
       function validateEmployeeId() {
         const employeeId = document.getElementById('employee-id').value.trim();
         const idPattern = /^[ATS]{3}0(?!000)[0-9]{3}$/;
         if (!idPattern.test(employeeId)) {
-          showErrorMessage('id-error', "Invalid Employee ID: Format should be ATS0xxx.");
+          showErrorMessage('id-error', "Invalid Employee ID: Format should be ABC0123.");
           return false;
         } else {
           showErrorMessage('id-error', '');
