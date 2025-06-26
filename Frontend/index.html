@@ -422,8 +422,7 @@
         <span id="name-error" class="error-message"></span>
 
         <label class="required" for="email">Email Address:</label>
-        <input type="email" id="email" name="email" required placeholder="Enter your email address" minlength="5"
-               maxlength="40" title="Please enter a valid email address"<input type="email" id="email" class="form-control" placeholder="Employee Email"
+      <input type="email" id="email" name="email" required placeholder="Enter your email address" 
        oninput="this.value = this.value.trim()">
 
         <span id="email-error" class="error-message"></span>
@@ -567,23 +566,51 @@
 }
 
 
-     function validateEmail() {
+   function validateEmail() {
     const email = document.getElementById('email').value;
-    const emailPattern = /^[a-zA-Z0-9._%+-]{3,}@(gmail\.com|outlook\.com|gmail\.in|outlook\.in|gmail\.org|outlook\.org)$/;
-
     // Trim spaces before validation
     const trimmedEmail = email.trim();
-
-    if (email !== trimmedEmail) {  // Detects if spaces were removed
+    
+    // Check for leading/trailing spaces
+    if (email !== trimmedEmail) {
         showErrorMessage('email-error', 'Email cannot contain leading or trailing spaces.');
         return false;
     }
-
-    if (!emailPattern.test(trimmedEmail)) {
-        showErrorMessage('email-error', 'Please enter a valid Gmail or Outlook email.');
+    
+    // Split into local part and domain
+    const parts = trimmedEmail.split('@');
+    if (parts.length !== 2) {
+        showErrorMessage('email-error', 'Email must contain exactly one @ symbol.');
         return false;
     }
-
+    
+    const localPart = parts[0];
+    const domain = parts[1];
+    
+    // Validate local part (before @)
+    if (localPart.length < 3) {
+        showErrorMessage('email-error', 'Email must have at least 3 characters before @.');
+        return false;
+    }
+    
+    // Check for invalid characters in local part
+    if (!/^[a-zA-Z0-9\-_.]+$/.test(localPart)) {
+        showErrorMessage('email-error', 'Only letters, numbers, -, _, and . allowed before @.');
+        return false;
+    }
+    
+    // Check for consecutive special characters
+    if (/[-_.]{2,}/.test(localPart)) {
+        showErrorMessage('email-error', 'Consecutive special characters (-, _, .) not allowed.');
+        return false;
+    }
+    
+    // Validate domain part (after @)
+    if (domain !== 'astrolitetech.com') {
+        showErrorMessage('email-error', 'Only @astrolitetech.com domain is allowed.');
+        return false;
+    }
+    
     showErrorMessage('email-error', '');
     return true;
 }
@@ -675,7 +702,7 @@
         };
 
         try {
-          const response = await fetch('http://54.166.206.245:3021/api/offboarding/submit', {
+          const response = await fetch('http://44.223.23.145:3421/api/offboarding/submit', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)

@@ -610,7 +610,7 @@
       </div>
       <div class="modal-buttons">
         <button class="download-button" id="downloadButton">Download PDF</button>
-        <button class="close-button" id="closeModalButton">Close</button>
+        <button class="close-button">Close</button>
       </div>
     </div>
   </div>
@@ -628,7 +628,6 @@
     const nameFilter = document.getElementById('nameFilter');
     const viewModal = document.getElementById('viewModal');
     const closeModal = document.getElementById('closeModal');
-    const closeModalButton = document.getElementById('closeModalButton');
     const downloadButton = document.getElementById('downloadButton');
     let allRecords = [];
     let currentRecord = null;
@@ -641,7 +640,7 @@
 
     async function fetchAllOffboardingRecords() {
       try {
-        const response = await fetch('http://44.223.23.145:3421/api/offboarding/all', {
+        const response = await fetch('http://54.166.206.245:3021/api/offboarding/all', {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' }
         });
@@ -736,12 +735,8 @@
       document.getElementById('modal-laptop_returned').textContent = record.laptop_returned || '--';
       document.getElementById('modal-phone_returned').textContent = record.phone_returned || '--';
       document.getElementById('modal-access_cards_returned').textContent = record.access_cards_returned || '--';
-     document.getElementById('modal-final_paycheck').textContent =
-  record.final_paycheck != null
-    ? `₹${Number(record.final_paycheck).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-    : '--';
-
-
+      document.getElementById('modal-final_paycheck').textContent = record.final_paycheck ? 
+        `₹${record.final_paycheck}` : '--';
       document.getElementById('modal-benefits_cleared').textContent = record.benefits_cleared || '--';
       document.getElementById('modal-exit_interview').textContent = record.exit_interview || '--';
       
@@ -791,7 +786,7 @@
         ['Phone Returned', currentRecord.phone_returned || '--'],
         ['Access Cards Returned', currentRecord.access_cards_returned || '--'],
         ['Final Paycheck', currentRecord.final_paycheck ? 
-          `${currentRecord.final_paycheck}` : '--'],
+          `₹${currentRecord.final_paycheck}` : '--'],
         ['Benefits Cleared', currentRecord.benefits_cleared || '--'],
         ['Exit Interview', currentRecord.exit_interview || '--'],
         ['Reason for Leaving', currentRecord.reason_for_leaving ? 
@@ -838,12 +833,9 @@
     empIdFilter.addEventListener('input', renderOffboardingRecords);
     nameFilter.addEventListener('input', renderOffboardingRecords);
     
-    // Handle both close buttons
-    [closeModal, closeModalButton].forEach(btn => {
-      btn.addEventListener('click', () => {
-        viewModal.style.display = 'none';
-        currentRecord = null;
-      });
+    closeModal.addEventListener('click', () => {
+      viewModal.style.display = 'none';
+      currentRecord = null;
     });
     
     downloadButton.addEventListener('click', downloadPDF);

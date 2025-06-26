@@ -4,7 +4,7 @@ const cors = require('cors');
 const path = require('path');
 
 const app = express();
-const port = 3021;
+const port = 3421;
 
 // PostgreSQL connection
 const pool = new Pool({
@@ -18,9 +18,9 @@ const pool = new Pool({
 // Middleware
 app.use(cors({
   origin: [
-    'http://54.166.206.245:8035', // Frontend
-    'http://54.166.206.245:8036', // HR page
-    'http://54.166.206.245:3021', // Backend self
+    'http://44.223.23.145:8041', // Frontend
+    'http://44.223.23.145:8042', // HR page
+    'http://44.223.23.145:3421', // Backend self
     'http://127.0.0.1:5501'       // Local dev (optional)
   ],
   methods: ['GET', 'POST', 'OPTIONS'],
@@ -131,9 +131,9 @@ pool.connect()
     console.log('✅ Connected to database');
     initializeDatabase().then(() => {
       app.listen(port, () => {
-        console.log(`🚀 Server running on http://54.166.206.245:${port}`);
-        console.log(`📄 Offboarding Form: http://54.166.206.245:${port}/offboarding.html`);
-        console.log(`📊 HR Offboarding Dashboard: http://54.166.206.245:${port}/hrOffboarding.html`);
+        console.log(`🚀 Server running on http://44.223.23.145:${port}`);
+        console.log(`📄 Offboarding Form: http://44.223.23.145:${port}/offboarding.html`);
+        console.log(`📊 HR Offboarding Dashboard: http://44.223.23.145:${port}/hrOffboarding.html`);
       });
     });
   })
