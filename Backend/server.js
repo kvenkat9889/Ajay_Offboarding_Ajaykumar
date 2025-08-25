@@ -18,9 +18,9 @@ const pool = new Pool({
 // Middleware
 app.use(cors({
   origin: [
-    'http://44.223.23.145:8041', // Frontend
-    'http://44.223.23.145:8042', // HR page
-    'http://44.223.23.145:3421', // Backend self
+    'http://13.50.16.239:8041', // Frontend
+    'http://13.50.16.239:8042', // HR page
+    'http://13.50.16.239:3421', // Backend self
     'http://127.0.0.1:5501'       // Local dev (optional)
   ],
   methods: ['GET', 'POST', 'OPTIONS'],
@@ -131,9 +131,9 @@ pool.connect()
     console.log('✅ Connected to database');
     initializeDatabase().then(() => {
       app.listen(port, () => {
-        console.log(`🚀 Server running on http://44.223.23.145:${port}`);
-        console.log(`📄 Offboarding Form: http://44.223.23.145:${port}/offboarding.html`);
-        console.log(`📊 HR Offboarding Dashboard: http://44.223.23.145:${port}/hrOffboarding.html`);
+        console.log(`🚀 Server running on http://13.50.16.239:${port}`);
+        console.log(`📄 Offboarding Form: http://13.50.16.239:${port}/offboarding.html`);
+        console.log(`📊 HR Offboarding Dashboard: http://13.50.16.239:${port}/hrOffboarding.html`);
       });
     });
   })
